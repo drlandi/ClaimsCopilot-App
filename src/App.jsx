@@ -1,27 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+// Temporary mock components for our 3 views
+const CustomerView = () => <div style={{padding: '20px', background: '#e3f2fd'}}><h2>Customer: Upload Claim</h2><p>Drag & Drop PDF Here...</p></div>;
+const EvaluatorView = () => <div style={{padding: '20px', background: '#f3e5f5'}}><h2>Evaluator: Decision Cockpit</h2><p>AI Analysis vs. Document...</p></div>;
+const BrokerView = () => <div style={{padding: '20px', background: '#e8f5e9'}}><h2>Broker: Client Overview</h2><p>Urgency Table...</p></div>;
 
 function App() {
-  return (
-    <div style={{ padding: '40px', fontFamily: 'sans-serif' }}>
-      <header style={{ borderBottom: '2px solid #232f3e', marginBottom: '20px' }}>
-        <h1 style={{ color: '#232f3e' }}>ClaimsCopilot: Evaluator Cockpit</h1>
-      </header>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        {/* Mocking the logic we defined in our Plan */}
-        <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
-          <h2>Current Claim Queue</h2>
-          <p>Processing 1 document...</p>
-          <div style={{ background: '#f4f4f4', padding: '10px', borderRadius: '4px' }}>
-            <strong>Status:</strong> <span style={{ color: 'orange' }}>PROCESSING</span>
-          </div>
-        </div>
+  const [role, setRole] = useState('customer'); // Default role
 
-        <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', background: '#eef6ff' }}>
-          <h2>Explainable AI Insights</h2>
-          <p>Waiting for Groq API response...</p>
+  return (
+    <div style={{ fontFamily: 'sans-serif', minHeight: '100vh' }}>
+      {/* PROFESSIONAL TOP BAR */}
+      <nav style={{ background: '#232f3e', color: 'white', padding: '15px 30px', display: 'flex', justifyContent: 'space-between' }}>
+        <strong>ClaimsCopilot</strong>
+        <div>
+          <span style={{marginRight: '15px'}}>Role: <strong>{role.toUpperCase()}</strong></span>
+          <button onClick={() => setRole('customer')}>As Customer</button>
+          <button onClick={() => setRole('evaluator')}>As Evaluator</button>
+          <button onClick={() => setRole('broker')}>As Broker</button>
         </div>
-      </div>
+      </nav>
+
+      {/* DYNAMIC VIEW ROUTER */}
+      <main style={{ padding: '40px' }}>
+        {role === 'customer' && <CustomerView />}
+        {role === 'evaluator' && <EvaluatorView />}
+        {role === 'broker' && <BrokerView />}
+      </main>
     </div>
   );
 }
